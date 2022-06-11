@@ -14,11 +14,15 @@ path = "excel.xlsx"
 wb_obj = openpyxl.load_workbook(path)
 sheet_obj = wb_obj.active
 
+user_count = 2
+cell_count = 2
+
 def copyRow(row):
     col = 1
     data = sheet_obj.cell(row = row, column = col)
-    while data.value != None:
-        worksheet.write(get_column_letter(col) + str(row), data.value)
+    #number of movies
+    while col < 12000:
+        worksheet.write(get_column_letter(col) + str(cell_count), data.value)
         col += 1
         data = sheet_obj.cell(row = row, column = col)
     
@@ -31,23 +35,27 @@ while cell_obj.value != None:
     cell_obj = sheet_obj.cell(row = 1, column = count)
     count += 1
  
-user_count = 2
+
 contin = True
-while contin:
-    cell_obj = sheet_obj.cell(row = user_count, column = 1)
-    if cell_obj.value == None:
-        contin = False
-    else:
-        iter = 0
-        for i in range(2, count):
-            rating = sheet_obj.cell(row = user_count, column = i)
-            if rating.value != None:
-                iter += 1
-        if iter > 1:
-            worksheet.write(get_column_letter(user_count) + '1', cell_obj.value)
-            copyRow(user_count)
-        user_count += 1
-        print(user_count)
+try:
+    while contin:
+        cell_obj = sheet_obj.cell(row = user_count, column = 1)
+        if cell_obj.value == None:
+            contin = False
+        else:
+            iter = 0
+            for i in range(2, count):
+                rating = sheet_obj.cell(row = user_count, column = i)
+                if rating.value != None:
+                    iter += 1
+            if iter > 1:
+                worksheet.write(get_column_letter(cell_count) + '1', cell_obj.value)
+                copyRow(user_count)
+                cell_count += 1
+            user_count += 1
+            print(user_count)
+except:
+    workbook.close()
 
 
 
